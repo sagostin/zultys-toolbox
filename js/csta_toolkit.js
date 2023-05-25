@@ -385,12 +385,14 @@ function GeneralResponse(isError, errorMsg)
     this.errorMsg = errorMsg;
 }
 
-function LoginResponse(isError, errorMsg, apiVersion, ext)
+function LoginResponse(isError, errorMsg, apiVersion, ext, userId, wwwUuid)
 {
     this.isError = isError;
     this.errorMsg = errorMsg;
     this.apiVersion = apiVersion;
     this.ext = ext;
+    this.userId = userId
+    this.wwwUuid = wwwUuid
 }
 
 function LogoutResponse(isError, errorMsg, forced)
@@ -495,6 +497,8 @@ LoginParser.prototype.parseLoginResponse = function(xmlDoc)
     {
         this.apiVersion = xmlDoc.getElementsByTagName("loginResponce")[0].getAttribute("apiversion");
         this.ext = xmlDoc.getElementsByTagName("loginResponce")[0].getAttribute("ext");
+        this.userId = xmlDoc.getElementsByTagName("loginResponce")[0].getAttribute("userId");
+        this.wwwUuid = xmlDoc.getElementsByTagName("loginResponce")[0].getAttribute("wwwUuid");
     }
     else if (xmlDoc.getElementsByTagName("loginFailed")[0] != null)
     {
@@ -514,7 +518,7 @@ LoginParser.prototype.Parse = function(message)
     if (!this.errorParser.isError)
         this.parseLoginResponse(xmlDoc);
 
-    return new LoginResponse(this.errorParser.isError, this.errorParser.errorMsg, this.apiVersion, this.ext);
+    return new LoginResponse(this.errorParser.isError, this.errorParser.errorMsg, this.apiVersion, this.ext, this.userId, this.wwwUuid);
 }
 
 //Logout parser

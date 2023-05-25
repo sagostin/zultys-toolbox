@@ -9,11 +9,17 @@
 <body>
 <script>
     ws.onopen = (e) => {
-        let packw = toolkit.createLogin(_,_, "17.0.10-2.40", true, false, response => {
+        let packw = toolkit.createLogin(_, _, "17.0.10-2.40", true, false, response => {
             console.log(response)
             if(response.isError){
-                console.log("Error: " + response.error)
+                if (response.errorMsg === "User already logged in") {
+                    console.log("Please logout first!")
+                    return
+                }
+                console.log("Error: " + response.errorMsg)
+                return
             }
+
         })
         ws.send(packw)
     }
