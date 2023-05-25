@@ -4,71 +4,19 @@
     <meta charset="UTF-8">
     <title>Title</title>
   <script src="js/csta_toolkit.js" ></script>
+    <script src="js/csta_websocket.js" ></script>
 </head>
 <body>
-  <script>
-    ip = "zultys.topsoffice.ca"
-    let ws
-    let toolkit = new CstaToolkit()
-
-    let isSessionToken = function (message) {
-      return (message.indexOf("session_valid") != -1);
-    };
-
-    let wsClient =  {
-      init: function () {
-      },
-      login: function (username,password) {
-        let packw = toolkit.createLogin(username, password, "17.0.10-2.40", true, false, "")
-        ws.send(packw);
-      },
-    };
-
-    function setupWS () {
-      let websocketAddress;
-      try {
-        console.log(ip.value)
-        websocketAddress = `wss://${ip}:7779`;
-        console.log(ip.value, websocketAddress)
-        ws = new WebSocket(websocketAddress);
-      } catch (e) {
-        console.log(e)
-        return
-      }
-      console.log("WebSocket is created now.")
-
-      ws.onopen = (e) => {
-        console.log("WebSocket is open now.");
-        console.log(ws)
-
-
-      }
-
-      ws.onerror = (e) => {
-        console.log(e);
-      }
-
-      ws.onclose = function (event) {
-        console.log(event)
-        console.log("WebSocket is closed now.");
-      };
-
-      ws.onmessage = function (event) {
-        // console.log(event)
-        if (isSessionToken(event.data)) {
-          console.log(event.data)
-        } else {
-          console.log(event)
-          toolkit.parseData(event.data);
-        }
-      }
+<script>
+    ws.onopen = (e) => {
+        let packw = toolkit.createLogin(_,_, "17.0.10-2.40", true, false, response => {
+            console.log(response)
+            if(response.isError){
+                console.log("Error: " + response.error)
+            }
+        })
+        ws.send(packw)
     }
-    setupWS()
-
-    window.onbeforeunload = function(e) {
-      ws.close()
-    };
-
-  </script>
+</script>
 </body>
 </html>
