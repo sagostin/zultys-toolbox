@@ -1,0 +1,28 @@
+https://216.130.164.51/newapi/?session=c7d1aded-b2e7-494e-8d9b-d532053f0493&command=cli_get_user_info
+
+
+admin account requests:
+{"command":"loginRequest","type":"user","platform":"admin","version":"1.2.2",
+      "clientType":"web","forced":true,"dcmode":"phone","session":"a346209e-3b4b-4645-a804-6371401597d9"}
+
+Admin Login Requests are formatted slightly differently...
+
+Admin Login Response:
+AAAAwzAwMDA={"index":0,"loginResponse":{"apiVersion":"20","code":"0","ext":"","sn":"620LQ","userId":"4294967295","wwwUuid":"HIDDEN"},"status":"Login OK","success":true}
+
+
+MXIE / WebZac - User Login Request:
+AAABaTAwMDA=<?xml version="1.0" encoding="UTF-8"?><loginRequest type="User" platform="MXIE" version="17.0.10-2.40" clientType="web" forced="false" loginCapab="Audio|Video|Im|911Support|WebChat|ScreenSharing|VideoConf|SchedConf|HttpFileTransfer" mediaCapab="Voicemail|Fax|CallRec" dcmode="phone" webToken=""><userName>221</userName><pwd>HIDDEN</pwd></loginRequest>
+Response::
+
+AAAB6TAwMDA=<?xml version="1.0" encoding="utf-8"?><loginResponce  Code="-1" sn="6326V" apiversion="20" pushApiversion="1" ext="221" userId="HIDDEN" softPhonePwd="HIDDEN" ipLocation="Default" maxFTFileSizeMb="50" wwwUuid="c7d1aded-b2e7-494e-8d9b-d532053f0493" canMonitor="false" screenSharingServerUrl="cms.zultys.com" screenSharingServerPort="8888" proto="TLS" mxport="5061" clientport="1234">Password Expired</loginResponce>
+
+To get a list of mailboxes, its done through the call gorup settings??
+{"command":"cli_get_call_group_info","groupInfo":{"groupId":"3502661241858897369","groupName":"Incoming","groupType":"hunt","members":[{"agentPresence":"LoggedOut","cellPhone":"","currentNode":0,"did":"","display":"","email":"","email2":"","extension":"221","faxNumber":"","firstName":"Jen ","flags":{"canCall":true,"seeVm":true},"homePhone":"","id":"43896726621822107","lastName":"Boose","loginSource":{"constant":true},"mxnNodeId":0,"mxnNodeIdCurrent":0,"numberCalls":{"agent":0,"user":0},"numberChats":{"agent":0,"user":0},"pictureFile":"","userMxStatus":"USER_ACCEPTS_IM|USER_ACCEPTS_WEBCHAT|USER_ACCEPTS_SCREEN_SHARING|USER_ACCEPTS_VIDEO|USER_ACCEPTS_VIDEOCONFERENCE|USER_ACCEPTS_HTTP_FT","userPresence":"Available","userPresenceNote":""}]},"index":0,"success":true}
+
+
+Post an audio file with the data in the body to /newapi/upload/files/
+{"name":"New greeting","index":1,"type":"greeting","groupId":"3502661241858897369"}
+
+get active greetings (group id is set in groupId, that is also gotten from the user's callgroup info)
+session=b85314f6-69b3-4da2-9524-33da887ca2b4&command=cli_set_active_greeting&data=%7B%22index%22%3A1%2C%22groupId%22%3A%223502661241858897369%22%7D

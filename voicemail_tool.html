@@ -3,10 +3,24 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
-  <script src="js/csta_toolkit.js" ></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
+    <script src="js/csta_toolkit.js" ></script>
+
+    <script>let ip = ""</script>
     <script src="js/csta_websocket.js" ></script>
 </head>
 <body>
+<div class="output"></div>
+<script language="javascript">
+    let realConsoleLog = console.log;
+    console.log = function () {
+        let message = [].join.call(arguments, " ");
+        $(".output").text(message);
+        realConsoleLog.apply(console, arguments);
+    };
+</script>
+
 <script>
     ws.onopen = (e) => {
         let packw = toolkit.createLogin("", "", "17.0.10-2.40", true, false, response => {
@@ -25,6 +39,9 @@
             // murf will go one by one and generate the according files, then re-upload them to the system??
             //
             console.log(response.wwwUuid)
+
+            // we now have the session, we can then send requests to the server to get voicemail greetings and all
+            // that jazz
 
         })
         ws.send(packw)
